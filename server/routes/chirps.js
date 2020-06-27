@@ -3,13 +3,11 @@ const chirpsstore = require('../chirpstore');
 
 let router = express.Router();
 
-router.get('/:id?', (req, res) => {
-    let id = req.params.id
-    if(id) {
-        res.json(chirpsstore.GetChirp(id))
-    } else {
-        res.send(chirpsstore.GetChirps());
-    }
+router.get('/', (req, res) => {
+    res.send(chirpsstore.GetChirps())
+})
+router.get('/:id', (req, res) => {
+    res.send(chirpsstore.GetChirp(req.params.id))
 });
 
 router.post('/', (req, res) => {
@@ -17,6 +15,14 @@ router.post('/', (req, res) => {
     res.sendStatus(200);
 });
 
+router.put('/:id', (req, res) => {
+    chirpsstore.UpdateChirp(req.params.id, req.body);
+    res.sendStatus(200)
+});
 
+router.delete('/:id', (req, res) => {
+    chirpsstore.DeleteChirp(req.params.id);
+    res.sendStatus(200)
+});
 
 module.exports = router;
